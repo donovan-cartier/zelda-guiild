@@ -1,0 +1,256 @@
+[gd_scene load_steps=19 format=3 uid="uid://bg0jiq81prppu"]
+
+[ext_resource type="Texture2D" uid="uid://dn47n2om3dlue" path="res://assets/character.png" id="1_rkjpk"]
+[ext_resource type="Script" path="res://player/player.gd" id="1_yfvvy"]
+[ext_resource type="Script" path="res://components/HealthComponent.gd" id="3_o7ibs"]
+[ext_resource type="Texture2D" uid="uid://bqskepk827tgy" path="res://assets/sword_slash.png" id="4_a8fjn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fiepm"]
+atlas = ExtResource("1_rkjpk")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_876kx"]
+atlas = ExtResource("1_rkjpk")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8jgy"]
+atlas = ExtResource("1_rkjpk")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_31esv"]
+atlas = ExtResource("1_rkjpk")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qttba"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fiepm")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_876kx")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8jgy")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_31esv")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rthl3"]
+size = Vector2(9, 14)
+
+[sub_resource type="Animation" id="Animation_aekje"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_c6p3w"]
+resource_name = "move"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.174533, 0.174533, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_46eql"]
+resource_name = "attack"
+length = 0.15
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0447818, 0.10022, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.174533, 0.174533, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0001, 0.03, 0.06, 0.12),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 1.5), Vector2(1.5, 0.8), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eskr4"]
+_data = {
+"attack": SubResource("Animation_46eql"),
+"idle": SubResource("Animation_aekje"),
+"move": SubResource("Animation_c6p3w")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4uuai"]
+size = Vector2(26, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fdebg"]
+atlas = ExtResource("4_a8fjn")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5p6pa"]
+atlas = ExtResource("4_a8fjn")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7yg24"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fdebg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5p6pa")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 4
+script = ExtResource("1_yfvvy")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+z_index = 1
+sprite_frames = SubResource("SpriteFrames_qttba")
+animation = &"down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_rthl3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eskr4")
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+zoom = Vector2(2, 2)
+
+[node name="HitZone" type="Area2D" parent="."]
+position = Vector2(0, 9)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitZone"]
+shape = SubResource("RectangleShape2D_4uuai")
+
+[node name="Anchors" type="Node2D" parent="."]
+
+[node name="DownAnchor" type="Node2D" parent="Anchors"]
+unique_name_in_owner = true
+position = Vector2(0, 9)
+
+[node name="RightAnchor" type="Node2D" parent="Anchors"]
+unique_name_in_owner = true
+position = Vector2(9, 0)
+rotation = -1.57079
+
+[node name="LeftAnchor" type="Node2D" parent="Anchors"]
+unique_name_in_owner = true
+position = Vector2(-9, 0)
+rotation = 1.5708
+
+[node name="UpAnchor" type="Node2D" parent="Anchors"]
+unique_name_in_owner = true
+position = Vector2(0, -9)
+rotation = 3.14159
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_o7ibs")
+
+[node name="SlashEffect" type="AnimatedSprite2D" parent="."]
+z_index = 1
+position = Vector2(0, 9)
+rotation = 1.57079
+scale = Vector2(1, 1.8)
+sprite_frames = SubResource("SpriteFrames_7yg24")
+frame = 2
+
+[connection signal="body_entered" from="HitZone" to="." method="_on_hit_zone_body_entered"]
+[connection signal="body_exited" from="HitZone" to="." method="_on_hit_zone_body_exited"]
+[connection signal="animation_finished" from="SlashEffect" to="." method="_on_slash_effect_animation_finished"]

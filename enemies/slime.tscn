@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://dy505y22fnwl1"]
+
+[ext_resource type="Script" path="res://enemies/slime.gd" id="1_611c6"]
+[ext_resource type="Texture2D" uid="uid://b42v1khgi151o" path="res://assets/slime.png" id="1_d76iy"]
+[ext_resource type="Script" path="res://components/HealthComponent.gd" id="2_epfse"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ip422"]
+radius = 7.0
+height = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7x17n"]
+radius = 7.0
+
+[node name="Slime" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_611c6")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(0.913725, 1, 0, 1)
+texture = ExtResource("1_d76iy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_ip422")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_epfse")
+
+[node name="HitZone" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitZone"]
+shape = SubResource("CircleShape2D_7x17n")
+
+[connection signal="body_entered" from="HitZone" to="." method="_on_hit_zone_body_entered"]
+[connection signal="body_exited" from="HitZone" to="." method="_on_hit_zone_body_exited"]
