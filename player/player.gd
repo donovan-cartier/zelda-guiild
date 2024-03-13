@@ -106,4 +106,7 @@ func _on_hit_zone_body_exited(body: Node2D) -> void:
 func _on_slash_effect_animation_finished() -> void:
 	is_attacking = false
 	
+func _die() -> void:
+	print("Vous avez perdu !")
+
 #endregion

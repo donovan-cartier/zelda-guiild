@@ -24,3 +24,6 @@ func _on_hit_zone_body_entered(body: Node2D) -> void:
 func _on_hit_zone_body_exited(body: Node2D) -> void:
 	if body is Player:
 		is_player_in_hit_zone = false
+
+func _die() -> void:
+	queue_free()

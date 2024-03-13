@@ -7,4 +7,4 @@ class_name HealthComponent
 func damage(amount: int):
 	health -= amount
 	if health <= 0:
-		owner.queue_free()
+		owner._die() 
