@@ -1,11 +1,10 @@
-@tool
 extends StaticBody2D
 
 @onready var sprite = $Sprite
 @onready var collision_shape = $CollisionShape
 @onready var area2d = $Area2D
 @export var is_opened: bool = false
-@export var tilemap_to_open: PackedScene
+@export_file("*.tscn") var tilemap_to_open: String
 
 func open():
 	sprite.play("open")
@@ -16,7 +15,7 @@ func close():
 	collision_shape.disabled = false
 
 func change_tile_map(tile_map_name):
-	var new_tilemap = tilemap_to_open.instantiate()
+	var new_tilemap = load(tilemap_to_open).instantiate()
 	World.root.call_deferred("add_child", new_tilemap)
 	World.root.call_deferred("remove_child",World.current_level)
 	World.current_level = new_tilemap
